@@ -7,7 +7,7 @@
 typedef struct {
 
   size_t id ; 
-  char* descricion ;
+  char* descripcion ;
   char* prioridad ; 
   char* hora ; 
 
@@ -19,7 +19,7 @@ typedef struct {
 void mostrarMenuPrincipal() {
   limpiarPantalla();
   puts("=============================================================");
-  puts("     Sistema de Gestión de Tickets de soporte tecnico        ");
+  puts("     Sistema de Gestion de Tickets de soporte tecnico        ");
   puts("=============================================================");
 
   puts("1) Registrar ticket");
@@ -33,7 +33,10 @@ void mostrarMenuPrincipal() {
 //Inicio de los tickets y asignacion de memoria
 ticket *crearTicket(){
   ticket *t = (ticket*)malloc(sizeof(ticket)) ; 
-  if(t == NULL) exit(EXIT_FAILURE) ; 
+  if(t == NULL) exit(EXIT_FAILURE) ;
+  t->descripcion = (char*)malloc(100 * sizeof(char));  
+  t->prioridad = (char*)malloc(20 * sizeof(char));  
+  t->hora = (char*)malloc(7 * sizeof(char));  
   return t ; 
 
 }
@@ -47,7 +50,7 @@ void registrarTicket(List *prioBaja ) {
   printf("ingrese el ID : \n") ; 
   scanf("%zd" , Nticket->id) ;
   printf("ingrese la descripcion del problema : \n") ; 
-  scanf("%[^\n]s" , Nticket->descricion) ;
+  scanf("%[^\n]s" , Nticket->descripcion) ;
   strcpy(Nticket->prioridad , "Bajo") ; 
   printf("ingrese la hora de creacion del ticket : \n") ; 
   scanf("%[^\n]s" , Nticket->hora) ;
@@ -71,13 +74,13 @@ int main() {
 
   do {
     mostrarMenuPrincipal();
-    printf("Ingrese su opción: ");
+    printf("Ingrese su opcion: ");
     scanf(" %c", &opcion); // Nota el espacio antes de %c para consumir el
                            // newline anterior
 
     switch (opcion) {
     case '1':
-    //registrarTicket();
+      registrarTicket(listaPrioridadBaja);
       break;
     case '2':
       // Lógica para asignar prioridad
@@ -92,10 +95,10 @@ int main() {
       // Lógica para mostrar pacientes por prioridad
       break;
     case '6':
-      puts("Saliendo del sistema de gestión hospitalaria...");
+      puts("Saliendo del sistema de gestion de tickets...");
       break;
     default:
-      puts("Opción no válida. Por favor, intente de nuevo.");
+      puts("Opcion no válida. Por favor, intente de nuevo.");
     }
     presioneTeclaParaContinuar();
 
@@ -103,6 +106,9 @@ int main() {
 
   // Liberar recursos, si es necesario
   //list_clean();
+  free(listaPrioridadBaja) ;
+  free(listaPrioridadMedia) ;
+  free(listaPrioridadAlta) ;
 
   return 0;
 }
