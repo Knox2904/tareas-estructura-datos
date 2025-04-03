@@ -21,8 +21,8 @@ El objetivo del proyecto es crear una aplicacion para el mejor manejo de tickets
 ## Instalación
 * Clona el repositorio a tu máquina local:
 * Ingresa a la carpeta seleccionada para poder compliar con el comando "cd" seguido de la ruta
-* Compila el codigo con gcc tarea1.c -o tarea1
-* Ejecuta con ./tarea1
+* Compila el codigo con gcc tarea1.c tdas/*.c -o programa.exe
+* Ejecuta con .\programa.exe
 
 ## Uso
 
@@ -36,5 +36,8 @@ basicamente todo el trabajo yo Gabriel lopez , creditos tambien a Felipe Castro 
 
 ## Errores conocidos
 
-Todo aun no funciona favor esperar 
+* el codigo ahora compila , sin ebargo aun no estan creadas la gran mayoria de las funciones
+* si la decripcion es mayor que 100 caracteres el programa no funcionara
+* si la prioridad es de mas de 20 caracteres el programa no funcionara
+* si la hora es de mas de 7 caracteres el programa no funcionara
 
