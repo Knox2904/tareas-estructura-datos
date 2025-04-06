@@ -7,9 +7,9 @@
 typedef struct {
 
   size_t id ; 
-  char* descripcion ;
-  char* prioridad ; 
-  char* hora ; 
+  char descripcion[100] ;
+  char prioridad[20] ; 
+  char hora[6] ; 
 
 } ticket ; 
 
@@ -23,20 +23,17 @@ void mostrarMenuPrincipal() {
   puts("=============================================================");
 
   puts("1) Registrar ticket");
-  puts("2) Asignar prioridad a paciente");
-  puts("3) Mostrar lista de espera");
-  puts("4) Atender al siguiente paciente");
-  puts("5) Mostrar pacientes por prioridad");
+  puts("2) Asignar prioridad al ticket");
+  puts("3) Mostrar lista de tickets pendientes");
+  puts("4) Procesar siguente ticket");
+  puts("5) Buscar ticket por ID y detalles");
   puts("6) Salir");
 }
 
 //Inicio de los tickets y asignacion de memoria
 ticket *crearTicket(){
   ticket *t = (ticket*)malloc(sizeof(ticket)) ; 
-  if(t == NULL) exit(EXIT_FAILURE) ;
-  t->descripcion = (char*)malloc(100 * sizeof(char));  
-  t->prioridad = (char*)malloc(20 * sizeof(char));  
-  t->hora = (char*)malloc(7 * sizeof(char));  
+  if(t == NULL) exit(EXIT_FAILURE) ; 
   return t ; 
 
 }
@@ -49,15 +46,61 @@ void registrarTicket(List *prioBaja ) {
 
   printf("ingrese el ID : \n") ; 
   scanf("%zd" , Nticket->id) ;
-  printf("ingrese la descripcion del problema : \n") ; 
-  scanf("%[^\n]s" , Nticket->descripcion) ;
+  printf("ingrese la descripcion del problema : \n") ;
+
+  scanf(" %[^\n]s" , Nticket->descripcion);
+
   strcpy(Nticket->prioridad , "Bajo") ; 
-  printf("ingrese la hora de creacion del ticket : \n") ; 
-  scanf("%[^\n]s" , Nticket->hora) ;
+  printf("ingrese la hora de creacion del ticket : \n") ;
+  
+  scanf(" %[^\n]s" , Nticket->hora);
 
   list_pushFront(prioBaja , Nticket) ; 
 
 }
+
+//funcion para cambiar prioridades
+void asignarPrioridad(List *prioridadBaja , List* prioridadMedia , List* prioridadAlta){
+  if(list_first(prioridadBaja) == NULL && list_first(prioridadMedia) == NULL && list_first(prioridadAlta) == NULL){
+    printf("Actualemete no hay tickets creados \n") ;
+    return ;
+  }
+
+  size_t ticketID ;
+  printf("ingrese el ID del ticket al que se le desa cambiar la prioridad: \n") ;
+  scanf("%zd" , &ticketID) ;
+
+  ticket* ticketActual = (ticket*) list_first(prioridadBaja) ;
+
+  while(ticketActual != NULL) {
+    if(ticketActual->id == ticketID){
+      printf("se encontro el ID , seleccione la nueva prioridad (1.- Alto , 2.- Medio , 3.- Bajo ):\n") ;
+      int nuevaPrioridad ;
+      scanf("%d" , &nuevaPrioridad) ;
+
+      switch (nuevaPrioridad) {
+      case 1 :
+        strcpy(ticketActual->prioridad , "Alto") ; 
+        break;
+
+      case 2:
+        strcpy(ticketActual->prioridad , "Medio") ; 
+        break;
+        
+      case 3:
+        strcpy(ticketActual->prioridad , "Bajo") ; 
+        break;
+
+      default:
+        break;
+      }
+    }
+
+    ticketActual = list_next(prioridadBaja) ;
+  }
+
+}
+
 
 void mostrar_lista_pacientes(List *pacientes) {
   // Mostrar pacientes en la cola de espera
@@ -80,10 +123,10 @@ int main() {
 
     switch (opcion) {
     case '1':
-      registrarTicket(listaPrioridadBaja);
+      registrarTicket(listaPrioridadBaja); //problema de iteracion revisar
       break;
     case '2':
-      // Lógica para asignar prioridad
+      asignarPrioridad(listaPrioridadBaja , listaPrioridadMedia , listaPrioridadAlta) ; 
       break;
     case '3':
       
