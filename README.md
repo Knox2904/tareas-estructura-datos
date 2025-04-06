@@ -40,4 +40,5 @@ basicamente todo el trabajo yo Gabriel lopez , creditos tambien a Felipe Castro 
 * si la decripcion es mayor que 100 caracteres el programa no funcionara
 * si la prioridad es de mas de 20 caracteres el programa no funcionara
 * si la hora es de mas de 7 caracteres el programa no funcionara
+* la funcion registrarTicket genera un error en el bule 
 
