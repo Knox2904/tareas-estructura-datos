@@ -156,7 +156,8 @@ void mostrarTickets(List *prioridadAlta , List* prioridadMedia , List* prioridad
     
     ticket *ticketActual = (ticket*)list_first(listasPrioridades[i]) ;
     if(ticketActual == NULL) {
-      printf("no existen tickets con la prioridad actual \n") ; 
+      printf("no existen tickets con la prioridad %s \n" , prioridades[i]) ;
+      continue; 
     }
 
     printf("\nTickets con prioridad %s en orden de llegada \n" , prioridades[i]) ;
@@ -171,6 +172,44 @@ void mostrarTickets(List *prioridadAlta , List* prioridadMedia , List* prioridad
     }
 
   }
+
+}
+
+
+//void procesarSiguenteTicket(List *prioridadAlta , List* prioridadMedia , List* prioridadBaja) ;
+
+
+void buscarTicketPorID(List *prioridadAlta , List* prioridadMedia , List* prioridadBaja) {
+  if(list_first(prioridadBaja) == NULL && list_first(prioridadMedia) == NULL && list_first(prioridadAlta) == NULL){
+    printf("Actualemete no hay tickets creados \n") ;
+    return ;
+  }
+
+  printf("Ingrese el ID a buscar : \n") ; 
+  size_t ticketID ; 
+  scanf("%zd" , &ticketID) ; 
+
+  List *listaPrioridades[] = {prioridadAlta , prioridadMedia , prioridadBaja} ; 
+  
+  for(int i = 0 ; i < 3 ; i++){
+
+    ticket *ticketActual = (ticket*)list_first(listaPrioridades[i]) ; 
+    
+    while(ticketActual != NULL ) {
+
+      if(ticketActual->id == ticketID) {
+        printf("ID: %zu\n", ticketActual->id);
+        printf("Descripcion: %s\n", ticketActual->descripcion);
+        printf("Prioridad: %s\n", ticketActual->prioridad);
+        printf("Hora de creacion: %s\n\n", ticketActual->hora);      
+
+        return;
+      }
+      ticketActual = (ticket*)list_next(listaPrioridades[i]) ;
+    }
+
+  }
+  printf("No se enncontro un ticket con ID %zd , por favor revise que el ID es el correcto \n" , ticketID) ; 
 
 }
 
@@ -198,10 +237,10 @@ int main() {
       mostrarTickets(listaPrioridadAlta , listaPrioridadMedia , listaPrioridadBaja);
       break;
     case '4':
-      procesarSiguenteTicket(listaPrioridadAlta , listaPrioridadMedia , listaPrioridadBaja); //por crear
+      //procesarSiguenteTicket(listaPrioridadAlta , listaPrioridadMedia , listaPrioridadBaja); //por crear
       break;
     case '5':
-      buscarTicketPorID(listaPrioridadAlta , listaPrioridadMedia , listaPrioridadBaja); //por crear
+      buscarTicketPorID(listaPrioridadAlta , listaPrioridadMedia , listaPrioridadBaja); 
       break;
     case '6':
       puts("Saliendo del sistema de gestion de tickets...");
