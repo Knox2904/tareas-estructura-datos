@@ -4,12 +4,12 @@ El objetivo del proyecto es crear una aplicacion para el mejor manejo de tickets
 
 ## Caracteristicas de la aplicacion
 
-- Registrar tickets (ID , prioridad)
-- Asignar diversas prioridades (Alta , Media y Baja)
-- Mostar los tickets pendientes por nivel de prioridad
-- Procesa los tickets de manera inteligente (prioridad e tiempo de atiguedad)
-- Busqueda de tickets por ID
-- Mostrar los detalles de un ticket especifico (si no existe se indicara)
+- [x] Registrar tickets (ID , prioridad)
+- [x] Asignar diversas prioridades (Alta , Media y Baja)
+- [x] Mostar los tickets pendientes por nivel de prioridad
+- [x] Procesa los tickets de manera inteligente (prioridad e tiempo de atiguedad)
+- [ ] Busqueda de tickets por ID
+- [ ] Mostrar los detalles de un ticket especifico (si no existe se indicara)
 
 
 ## Tecnologías utilizadas
