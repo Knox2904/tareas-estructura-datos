@@ -38,14 +38,29 @@ ticket *crearTicket(){
 
 }
 
+
+//revisa si el id ya esta utilizado para evitar repeticiones y eventuales errores
+int IDEnUso(List *prioridadBaja , List* prioridadMedia , List* prioridadAlta , size_t ID){
+  List *listasPrioridades[] = {prioridadAlta , prioridadMedia , prioridadBaja};
+
+  for(int i = 0;i < 3 ; i++){
+    ticket *ticketActual  = list_first(listasPrioridades[i]) ; 
+    while(ticketActual  != NULL){
+      if(ticketActual ->id==ID){
+        return 1;
+      }
+      ticketActual = list_next(listasPrioridades[i]) ;
+    }
+  }
+  return 0 ; 
+}
+
 //registro de los tickets
-void registrarTicket(List *prioBaja ) {
+void registrarTicket(List *prioridadBaja , List* prioridadMedia , List* prioridadAlta) {
   printf("Registrar nuevo ticket\n");
 
   ticket *Nticket = crearTicket() ; 
 
-  printf("ingrese el ID : \n") ; 
-  scanf("%zd" , Nticket->id) ;
   printf("ingrese la descripcion del problema : \n") ;
 
   scanf(" %[^\n]s" , Nticket->descripcion);
@@ -55,7 +70,19 @@ void registrarTicket(List *prioBaja ) {
   
   scanf(" %[^\n]s" , Nticket->hora);
 
-  list_pushFront(prioBaja , Nticket) ; 
+  do{
+    printf("ingrese el ID : \n") ; 
+    scanf("%zd" , &Nticket->id) ;
+
+    if(IDEnUso(prioridadAlta, prioridadMedia, prioridadBaja, Nticket->id)) {
+      printf("ID en uso , favor de ingresar uno diferente \n") ; 
+    }
+    else break;
+
+  }while(1) ; 
+
+
+  list_pushBack(prioridadBaja , Nticket) ; 
 
 }
 
@@ -70,42 +97,81 @@ void asignarPrioridad(List *prioridadBaja , List* prioridadMedia , List* priorid
   printf("ingrese el ID del ticket al que se le desa cambiar la prioridad: \n") ;
   scanf("%zd" , &ticketID) ;
 
-  ticket* ticketActual = (ticket*) list_first(prioridadBaja) ;
 
-  while(ticketActual != NULL) {
-    if(ticketActual->id == ticketID){
-      printf("se encontro el ID , seleccione la nueva prioridad (1.- Alto , 2.- Medio , 3.- Bajo ):\n") ;
-      int nuevaPrioridad ;
-      scanf("%d" , &nuevaPrioridad) ;
+  List *listasPrioridades[] = {prioridadBaja , prioridadMedia , prioridadAlta}; 
 
-      switch (nuevaPrioridad) {
-      case 1 :
-        strcpy(ticketActual->prioridad , "Alto") ; 
-        break;
+  for(int i = 0 ; i < 3 ;i++){
+  ticket* ticketActual = (ticket*) list_first(listasPrioridades[i]) ;
 
-      case 2:
-        strcpy(ticketActual->prioridad , "Medio") ; 
-        break;
+    while(ticketActual != NULL) {
+
+      if(ticketActual->id == ticketID){
+        printf("se encontro el ID , seleccione la nueva prioridad (1.- Alto , 2.- Medio , 3.- Bajo ):\n") ;
+        int nuevaPrioridad ;
+        scanf("%d" , &nuevaPrioridad) ;
+
+        list_popCurrent(listasPrioridades[i]) ; 
+
+        switch (nuevaPrioridad) {
+        case 1 :
+          strcpy(ticketActual->prioridad , "Alto") ;
+          list_pushBack(prioridadAlta , ticketActual) ; 
+          break;
+
+        case 2:
+          strcpy(ticketActual->prioridad , "Medio") ;
+          list_pushBack(prioridadMedia , ticketActual) ; 
+          break;
         
-      case 3:
-        strcpy(ticketActual->prioridad , "Bajo") ; 
-        break;
+        case 3:
+          strcpy(ticketActual->prioridad , "Bajo") ;
+          list_pushBack(prioridadBaja , ticketActual) ; 
+          break;
 
-      default:
-        break;
+        default:
+          printf("ingrese una prioridad valida : \n") ; 
+          break;
+        }
+        printf("cambio realizado con exito :) \n") ; 
+        return;
       }
+
+      ticketActual = list_next(listasPrioridades[i]) ;
     }
-
-    ticketActual = list_next(prioridadBaja) ;
   }
-
+  printf("ticket no encontrado \n");
 }
 
+//funcion que sirve para mostrar los tickets por prioridad y odern de llegada
+void mostrarTickets(List *prioridadAlta , List* prioridadMedia , List* prioridadBaja) {
+  if(list_first(prioridadBaja) == NULL && list_first(prioridadMedia) == NULL && list_first(prioridadAlta) == NULL){
+    printf("Actualemete no hay tickets creados \n") ;
+    return ;
+  }
 
-void mostrar_lista_pacientes(List *pacientes) {
-  // Mostrar pacientes en la cola de espera
-  printf("Pacientes en espera: \n");
-  // Aquí implementarías la lógica para recorrer y mostrar los pacientes
+  List *listasPrioridades[] = {prioridadAlta , prioridadMedia , prioridadBaja};
+  const char *prioridades[] = {"Alta" , "Media" , "Baja" } ;
+
+  for(int i = 0 ; i < 3 ; i++){
+    
+    ticket *ticketActual = (ticket*)list_first(listasPrioridades[i]) ;
+    if(ticketActual == NULL) {
+      printf("no existen tickets con la prioridad actual \n") ; 
+    }
+
+    printf("\nTickets con prioridad %s en orden de llegada \n" , prioridades[i]) ;
+
+    while(ticketActual != NULL) {
+      printf("ID: %zu\n", ticketActual->id);
+      printf("Descripcion: %s\n", ticketActual->descripcion);
+      printf("Prioridad: %s\n", ticketActual->prioridad);
+      printf("Hora de creacion: %s\n\n", ticketActual->hora);      
+
+      ticketActual = (ticket*)list_next(listasPrioridades[i]) ;
+    }
+
+  }
+
 }
 
 int main() {
@@ -123,19 +189,19 @@ int main() {
 
     switch (opcion) {
     case '1':
-      registrarTicket(listaPrioridadBaja); //problema de iteracion revisar
+      registrarTicket(listaPrioridadBaja, listaPrioridadMedia , listaPrioridadAlta); 
       break;
     case '2':
       asignarPrioridad(listaPrioridadBaja , listaPrioridadMedia , listaPrioridadAlta) ; 
       break;
     case '3':
-      
+      mostrarTickets(listaPrioridadAlta , listaPrioridadMedia , listaPrioridadBaja);
       break;
     case '4':
-      // Lógica para atender al siguiente paciente
+      procesarSiguenteTicket(listaPrioridadAlta , listaPrioridadMedia , listaPrioridadBaja); //por crear
       break;
     case '5':
-      // Lógica para mostrar pacientes por prioridad
+      buscarTicketPorID(listaPrioridadAlta , listaPrioridadMedia , listaPrioridadBaja); //por crear
       break;
     case '6':
       puts("Saliendo del sistema de gestion de tickets...");
