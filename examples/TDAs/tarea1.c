@@ -14,7 +14,6 @@ typedef struct {
 } ticket ; 
 
 
-
 // Menú principal
 void mostrarMenuPrincipal() {
   limpiarPantalla();
@@ -175,8 +174,30 @@ void mostrarTickets(List *prioridadAlta , List* prioridadMedia , List* prioridad
 
 }
 
+//funcion que mustra el ticket mas antiguo a procesar dentro de su nivel
+void procesarSiguenteTicket(List *prioridadAlta , List* prioridadMedia , List* prioridadBaja) {
+  if(list_first(prioridadBaja) == NULL && list_first(prioridadMedia) == NULL && list_first(prioridadAlta) == NULL){
+    printf("Actualemete no hay tickets creados o pendientes \n") ;
+    return ;
+  }
 
-//void procesarSiguenteTicket(List *prioridadAlta , List* prioridadMedia , List* prioridadBaja) ;
+  List *listasPrioridades[] = {prioridadAlta , prioridadMedia , prioridadBaja};
+  const char *prioridades[] = {"Alta" , "Media" , "Baja" } ;
+  
+  printf("\n");
+  for(int i = 0 ; i < 3 ; i++){
+    ticket *ticketActual = (ticket*)list_first(listasPrioridades[i]) ;
+    if(ticketActual != NULL) {
+      printf("ID: %zu\n", ticketActual->id);
+      printf("Descripcion: %s\n", ticketActual->descripcion);
+      printf("Prioridad: %s\n", ticketActual->prioridad);
+      printf("Hora de creacion: %s\n\n", ticketActual->hora);   
+      list_popCurrent(listasPrioridades[i]);
+      return;
+    }
+  }
+
+}
 
 
 void buscarTicketPorID(List *prioridadAlta , List* prioridadMedia , List* prioridadBaja) {
@@ -237,7 +258,7 @@ int main() {
       mostrarTickets(listaPrioridadAlta , listaPrioridadMedia , listaPrioridadBaja);
       break;
     case '4':
-      //procesarSiguenteTicket(listaPrioridadAlta , listaPrioridadMedia , listaPrioridadBaja); //por crear
+      procesarSiguenteTicket(listaPrioridadAlta , listaPrioridadMedia , listaPrioridadBaja); //por crear
       break;
     case '5':
       buscarTicketPorID(listaPrioridadAlta , listaPrioridadMedia , listaPrioridadBaja); 
