@@ -8,8 +8,8 @@ El objetivo del proyecto es crear una aplicacion para el mejor manejo de tickets
 - [x] Asignar diversas prioridades (Alta , Media y Baja)
 - [x] Mostar los tickets pendientes por nivel de prioridad
 - [x] Procesa los tickets de manera inteligente (prioridad e tiempo de atiguedad)
-- [ ] Busqueda de tickets por ID
-- [ ] Mostrar los detalles de un ticket especifico (si no existe se indicara)
+- [x] Busqueda de tickets por ID
+- [x] Mostrar los detalles de un ticket especifico (si no existe se indicara)
 
 
 ## Tecnologías utilizadas
@@ -36,9 +36,9 @@ basicamente todo el trabajo yo Gabriel lopez , creditos tambien a Felipe Castro 
 
 ## Errores conocidos
 
-* ~~el codigo ahora compila , sin ebargo aun no estan creadas la gran mayoria de las funciones~~ el codigo ahora tiene todas las funciones creadas , pero 4 y 5 aun no tiene codigo
+* ~~el codigo ahora compila , sin ebargo aun no estan creadas la gran mayoria de las funciones~~ ~~el codigo ahora tiene todas las funciones creadas , pero 4 y 5 aun no tiene codigo~~
 * si la decripcion es mayor que 100 caracteres el programa no funcionara
 * si la prioridad es de mas de 20 caracteres el programa no funcionara
 * si la hora es de mas de 7 caracteres el programa no funcionara
-* ~~la funcion registrarTicket genera un error en el bucle~~ la funcion registrarTicket ahora funciona correctamente , agregando logica para evitar repeticiones en ID
+* ~~la funcion registrarTicket genera un error en el bucle~~ -> la funcion registrarTicket ahora funciona correctamente , agregando logica para evitar repeticiones en ID
 
