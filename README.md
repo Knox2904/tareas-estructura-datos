@@ -19,16 +19,33 @@ El objetivo del proyecto es crear una aplicacion para el mejor manejo de tickets
 
 
 ## Instalación
-* Clona el repositorio a tu máquina local:
-* Ingresa a la carpeta seleccionada para poder compliar con el comando "cd" seguido de la ruta
-* Compila el codigo con gcc tarea1.c tdas/*.c -o programa.exe
-* Ejecuta con .\programa.exe
+
+1. Clona el repositorio en tu maquina local (git clone https://github.com/Knox2904/tareas-estructura-datos.git)
+2. Accede a la carpeta del proyecto. Usa el comando cd seguido de la ruta , puedes usar el comando dir para listar las carpetas y confirmar tu ubicación
+3. Compila el código con el siguiente comando (gcc tarea1.c tdas/*.c -o programa.exe)
+4. Ejecuta el programa (.\programa.exe)
+
+Notas: 
+- si gcc no esta instalado tendra que instalarlo
+- asegurese de estar en la misma carpeta de donde estan los archivos tarea1.c y la carpeta tdas de lo contrario no compliara
 
 ## Uso
 
-Una vez que el programa esté ejecutándose, se te pedirá que ingreses un ID de ticket, una descripción, y la hora de creación. La prioridad por defecto es "Bajo", pero puedes cambiarla si es necesario.
+Ejecute el programa siguiendo las instrucciones previamente dadas. Una vez en ejecución, se mostrará un menú con varias opciones para gestionar los tickets: agregar, modificar o eliminarlos.
 
-Sigue las instrucciones en pantalla para crear y registrar tickets.
+Seleccione la opción deseada y siga las instrucciones en pantalla.
+En caso de seleccionar una opción que requiera al menos un ticket, y que este no haya sido creado correctamente, el programa le avisará del error.
+
+Para evitar problemas:
+* No cree un ticket con una descripción mayor a 100 caracteres
+* Utilice únicamente las prioridades "Baja", "Media" o "Alta"
+* Al ingresar la hora, siga el formato "00:00" (hora:minutos). Aunque el programa acepta otros formatos mientras no superen 7 caracteres, esto podría causar confusión visual para otros usuarios
+* Evite utilizar números decimales al asignar el ID de un ticket.
+
+Importante:
+* El programa no guarda los datos al cerrarse; todos los tickets se perderán si reinicia el programa
+* Todos los nuevos tickets se crean inicialmente con prioridad "Baja". Puede cambiar la prioridad seleccionando la opción correspondiente en el menú
+* El sistema maneja los tickets siguiendo la siguiente jerarquía: Prioridad > Antigüedad > Hora (Es decir, los tickets de mayor prioridad y más antiguos se procesarán primero.)
 
 ## Contribuciones 
 
@@ -36,9 +53,14 @@ basicamente todo el trabajo yo Gabriel lopez , creditos tambien a Felipe Castro 
 
 ## Errores conocidos
 
-* ~~el codigo ahora compila , sin ebargo aun no estan creadas la gran mayoria de las funciones~~ ~~el codigo ahora tiene todas las funciones creadas , pero 4 y 5 aun no tiene codigo~~
-* si la decripcion es mayor que 100 caracteres el programa no funcionara
-* si la prioridad es de mas de 20 caracteres el programa no funcionara
-* si la hora es de mas de 7 caracteres el programa no funcionara
-* ~~la funcion registrarTicket genera un error en el bucle~~ -> la funcion registrarTicket ahora funciona correctamente , agregando logica para evitar repeticiones en ID
+* ~~El código no compilaba correctamente~~ → Solucionado: ahora el programa compila sin errores
+* ~~La mayoría de las funciones no estaban creadas~~ → Solucionado: todas las funciones están implementadas y funcionan correctamente
+* La descripción de un ticket no debe superar los 100 caracteres, de lo contrario el programa puede fallar
+* La prioridad de un ticket no debe superar los 20 caracteres, para evitar errores
+* El campo de la hora no debe superar los 7 caracteres, ya que puede causar errores de formato
+* ~~La función registrarTicket generaba un error en el bucle~~ → Solucionado: ahora la función registrarTicket funciona correctamente y verifica que no se repitan los IDs
+
+Notas: 
+* Si el programa se reinicia, los datos no se guardan (no hay persistencia en disco)
+* evitar ingresar IDs decimales (por ejemplo, 1.5) ya que solo se aceptan números enteros
 
